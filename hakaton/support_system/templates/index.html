@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Т1 - Система технической поддержки</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- API Modal -->
+    <div class="modal active" id="apiModal">
+        <div class="modal-content">
+            <h2>Инициализация</h2>
+            <input type="password" id="apiKeyInput" placeholder="API ключ SciBox" autocomplete="off">
+            <button class="btn" id="initBtn" onclick="initializeSystem()">Инициализировать</button>
+            <div class="loading" id="initLoading">
+                <div class="spinner"></div>
+                <p>Загрузка...</p>
+            </div>
+            <div class="error-message" id="initError"></div>
+            <div id="initSuccess" style="display: none;">
+                <p class="success-msg"><span id="articlesCount"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>Т1 Интеллектуальная поддержка</h1>
+        <span class="version" id="appVersion">v2.2.0</span>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Input Section -->
+        <div class="input-block">
+            <textarea id="ticketInput" placeholder="Введите обращение клиента..."></textarea>
+            <button class="btn-process" id="processBtn" onclick="processTicket()">Обработать</button>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <span>Анализ...</span>
+        </div>
+        <div class="error-message" id="errorMessage"></div>
+
+        <!-- Results -->
+        <div class="results" id="results">
+            <!-- Classification -->
+            <div class="card">
+                <div class="card-header">Классификация</div>
+                <div class="card-body">
+                    <div class="info-row">
+                        <span class="label">Категория:</span>
+                        <span class="badge" id="category">—</span>
+                    </div>
+                    <div class="info-row info-row-subcategories" id="subcategoryRow">
+                        <span class="label">Подкатегории:</span>
+                        <div class="subcategories-list empty" id="subcategory"><span class="badge">—</span></div>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Уверенность:</span>
+                        <span class="badge" id="classConfidence">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Info -->
+            <div class="card">
+                <div class="card-header">Информация</div>
+                <div class="card-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="label">Проблема:</span>
+                            <span id="mainIssue">—</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Приоритет:</span>
+                            <span class="badge" id="urgency">—</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Настроение:</span>
+                            <span id="sentiment">—</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Уверенность:</span>
+                            <span id="confidence">—</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sources (right column) -->
+            <div class="card card-sources" id="sourcesCard" style="display: none;">
+                <div class="card-header">
+                    <span>Похожие ответы (<span id="sourcesCount">0</span>)</span>
+                </div>
+                <div class="card-body card-body-sources" id="sourcesList"></div>
+            </div>
+
+            <!-- Response (full width) -->
+            <div class="card card-response">
+                <div class="card-header">
+                    <span>Рекомендуемый ответ</span>
+                    <div class="card-actions">
+                        <button class="btn-action" onclick="copyResponse()" title="Копировать">📋</button>
+                        <button class="btn-action" onclick="resetResponse()" title="Сбросить">↺</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <textarea class="response-text" id="suggestedResponse" placeholder="Ожидание обработки..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
